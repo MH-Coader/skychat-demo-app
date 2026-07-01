@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-
+const FIREBASE_DB_URL = "https://skychat-app-2ca91-default-rtdb.asia-southeast1.firebasedatabase.app/";
 // Types
 export type ChatTab = "casual" | "formal";
 
