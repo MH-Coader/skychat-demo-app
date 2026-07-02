@@ -218,17 +218,34 @@ export default function App() {
     }
   };
 
-  const initializeChat = (id: string) => {
-    // Retrieve or initialize conversation message array
-    if (!messages[id]) {
-      setMessages(prev => ({
-        ...prev,
-        [id]: [
-          { id: "init", text: "Hello, connected!", sender: "receiver", timestamp: "" }
-        ]
-      }));
-    }
-  };
+  // ফায়ারবেস থেকে অনবরত নতুন মেসেজ রিসিভ করার জন্য
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const response = await fetch(`${FIREBASE_DB_URL}messages/${activeChatId}.json`);
+        const data = await response.json();
+        
+        if (data) {
+          // ডাটাবেস থেকে পাওয়া মেসেজগুলো সাজিয়ে নেওয়া
+          const loadedMessages = Object.values(data) as Message[];
+          setMessages(prev => ({
+            ...prev,
+            [activeChatId]: loadedMessages
+          }));
+        }
+      } catch (error) {
+        console.error("মেসেজ রিসিভ করতে সমস্যা হচ্ছে!", error);
+      }
+    };
+
+    // চ্যাট ওপেন করার সাথে সাথে একবার মেসেজ আনবে
+    fetchMessages();
+    
+    // এরপর প্রতি ৩ সেকেন্ড পর পর চেক করবে নতুন মেসেজ আসলো কি না
+    const intervalId = setInterval(fetchMessages, 3000);
+
+    return () => clearInterval(intervalId);
+  }, [activeChatId]);
 
   const handleSendMessage = async () => {
     if (!msgInput.trim()) return;
