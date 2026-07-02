@@ -230,20 +230,33 @@ export default function App() {
     }
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!msgInput.trim()) return;
+    
     const activeMsgList = messages[activeChatId] || [];
     const newMsg: Message = {
       id: String(Date.now()),
       text: msgInput,
       sender: "sender",
-      timestamp: ""
+      timestamp: new Date().toISOString()
     };
+    
+    // আপনার ফোনে মেসেজটি সাথে সাথে দেখানোর জন্য
     setMessages(prev => ({
       ...prev,
       [activeChatId]: [...activeMsgList, newMsg]
     }));
     setMsgInput("");
+
+    // ফায়ারবেস ডাটাবেসে মেসেজটি পাঠানোর জন্য
+    try {
+      await fetch(`${FIREBASE_DB_URL}messages/${activeChatId}.json`, {
+        method: 'POST',
+        body: JSON.stringify(newMsg)
+      });
+    } catch (error) {
+      console.error("মেসেজ পাঠানো যায়নি!", error);
+    }
   };
 
   const handleMediaPhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
