@@ -86,15 +86,19 @@ const emojiList = [
 export default function App() {
   // এই অংশটুকু আপনার ফাইলের মাঝামাঝি জায়গায় বসান
   const handleSendMessage = () => {
-    if (!msgInput.trim()) return;
+   if (!msgInput.trim()) return;
+    setMessages({ ...messages, [activeChatId]: [...(messages[activeChatId] || []), { id: Date.now().toString(), text: msgInput, sender: "sender", timestamp: new Date().toLocaleTimeString() }] });
     setMsgInput("");
   };
 
   const addNewContact = () => {
+    const newContact = { id: Date.now().toString(), name: contactName, number: contactNumber, mode: contactMode };
+    setContacts([...contacts, newContact]);
     setIsModalOpen(false);
   };
 
   const handleSaveLockSetup = () => {
+    if (lockValue !== lockValueConfirm) { alert("PINs do not match!"); return; }
     setIsLockSetupModalOpen(false);
   };
 
@@ -113,6 +117,14 @@ export default function App() {
   const handleMediaFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("File uploaded");
   };
+  // --- ফাংশন পেস্ট শেষ ---
+
+  return (
+    <div className="app-wrapper">
+       {/* আপনার ডিজাইন কোড এখানে থাকবে */}
+    </div>
+  );
+}
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
