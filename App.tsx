@@ -84,6 +84,35 @@ const emojiList = [
 ];
 
 export default function App() {
+  // এই অংশটুকু আপনার ফাইলের মাঝামাঝি জায়গায় বসান
+  const handleSendMessage = () => {
+    if (!msgInput.trim()) return;
+    setMsgInput("");
+  };
+
+  const addNewContact = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSaveLockSetup = () => {
+    setIsLockSetupModalOpen(false);
+  };
+
+  const handleVerifyUnlock = () => {
+    setIsUnlockModalOpen(false);
+  };
+
+  const handleRemoveLock = () => {
+    console.log("Lock removed");
+  };
+
+  const handleMediaPhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("Photo uploaded");
+  };
+
+  const handleMediaFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("File uploaded");
+  };
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
