@@ -117,14 +117,6 @@ export default function App() {
   const handleMediaFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("File uploaded");
   };
-  // --- ফাংশন পেস্ট শেষ ---
-
-  return (
-    <div className="app-wrapper">
-       {/* আপনার ডিজাইন কোড এখানে থাকবে */}
-    </div>
-  );
-}
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [loginUsername, setLoginUsername] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
